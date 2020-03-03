@@ -65,13 +65,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `les`.`Dia Aberto` (
   `ano` INT NOT NULL,
-  `descriçao` VARCHAR(45) NULL,
-  `datainscriçao` DATE NULL,
+  `descricao` VARCHAR(45) NULL,
+  `datainscricao` DATE NULL,
   `emailDiaAberto` VARCHAR(45) NULL,
-  `endereçoPaginaWeb` VARCHAR(45) NOT NULL,
-  `dataDiainscriçaoAtividadesInicio` DATE NOT NULL,
+  `enderecoPaginaWeb` VARCHAR(45) NOT NULL,
+  `dataDiainscricaoAtividadesInicio` DATE NOT NULL,
   `dataDiaAbertoInicio` DATE NOT NULL,
-  `dataInscriçaoAtividadesfim` DATE NOT NULL,
+  `dataInscricaoAtividadesfim` DATE NOT NULL,
   `dataDiaAbertofim` DATE NOT NULL,
   `dataPropostaAtividadeInicio` DATE NOT NULL,
   `dataPropostaAtividadesFim` DATE NOT NULL,
@@ -102,11 +102,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`notificaçao`
+-- Table `les`.`notificacao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`notificaçao` (
+CREATE TABLE IF NOT EXISTS `les`.`notificacao` (
   `id` INT NOT NULL,
-  `descriçao` VARCHAR(45) NULL,
+  `descricao` VARCHAR(45) NULL,
   `criadoem` VARCHAR(45) NULL,
   `iduser` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `les`.`transporte` (
   `idtransporte` INT NOT NULL AUTO_INCREMENT,
   `horariochegada` DATETIME(6) NULL,
   `capacidade` INT NOT NULL,
-  `identificaçao` VARCHAR(45) NOT NULL,
+  `identificacao` VARCHAR(45) NOT NULL,
   `Administrador_Utilizador_idutilizador1` INT NULL,
   PRIMARY KEY (`idtransporte`),
   UNIQUE INDEX `horariochegada_UNIQUE` (`horariochegada` ASC) VISIBLE,
@@ -203,7 +203,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `les`.`Atividade` (
   `idAtividade` INT NOT NULL,
   `capacidade` INT NULL,
-  `duraçao` FLOAT NULL,
+  `duracao` FLOAT NULL,
   `Professor Universitario_Utilizador_idutilizador` INT NOT NULL,
   `unidade Organica_idUO` INT NOT NULL,
   `Departamento_idDepartamento` INT NOT NULL,
@@ -276,15 +276,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`inscriçao individual`
+-- Table `les`.`inscricao individual`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`inscriçao individual` (
-  `idinscriçao` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `les`.`inscricao individual` (
+  `idinscricao` INT NOT NULL,
   `nracompanhades` INT ZEROFILL NOT NULL,
   `Participante_Utilizador_idutilizador` INT NOT NULL,
-  PRIMARY KEY (`idinscriçao`),
-  INDEX `fk_inscriçao individual_Participante1_idx` (`Participante_Utilizador_idutilizador` ASC) VISIBLE,
-  CONSTRAINT `fk_inscriçao individual_Participante1`
+  PRIMARY KEY (`idinscricao`),
+  INDEX `fk_inscricao individual_Participante1_idx` (`Participante_Utilizador_idutilizador` ASC) VISIBLE,
+  CONSTRAINT `fk_inscricao individual_Participante1`
     FOREIGN KEY (`Participante_Utilizador_idutilizador`)
     REFERENCES `les`.`Participante` (`Utilizador_idutilizador`)
     ON DELETE NO ACTION
@@ -293,16 +293,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`inscriçao coletiva`
+-- Table `les`.`inscricao coletiva`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`inscriçao coletiva` (
-  `idinscriçao` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `les`.`inscricao coletiva` (
+  `idinscricao` INT NOT NULL,
   `nresponsaveis` INT NULL,
   `turma` CHAR NULL,
   `Participante_Utilizador_idutilizador` INT NOT NULL,
-  PRIMARY KEY (`idinscriçao`),
-  INDEX `fk_inscriçao coletiva_Participante1_idx` (`Participante_Utilizador_idutilizador` ASC) VISIBLE,
-  CONSTRAINT `fk_inscriçao coletiva_Participante1`
+  PRIMARY KEY (`idinscricao`),
+  INDEX `fk_inscricao coletiva_Participante1_idx` (`Participante_Utilizador_idutilizador` ASC) VISIBLE,
+  CONSTRAINT `fk_inscricao coletiva_Participante1`
     FOREIGN KEY (`Participante_Utilizador_idutilizador`)
     REFERENCES `les`.`Participante` (`Utilizador_idutilizador`)
     ON DELETE NO ACTION
@@ -311,33 +311,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`inscriçao`
+-- Table `les`.`inscricao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`inscriçao` (
-  `idinscriçao` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `les`.`inscricao` (
+  `idinscricao` INT NOT NULL AUTO_INCREMENT,
   `ano` YEAR NULL,
   `local` VARCHAR(45) NULL,
   `areacientifica` VARCHAR(45) NULL,
   `Atividade_idAtividade` INT NOT NULL,
-  `inscriçao individual_idinscriçao` INT NOT NULL,
-  `inscriçao coletiva_idinscriçao` INT NOT NULL,
-  PRIMARY KEY (`idinscriçao`, `inscriçao individual_idinscriçao`, `inscriçao coletiva_idinscriçao`),
-  INDEX `fk_inscriçao_Atividade1_idx` (`Atividade_idAtividade` ASC) VISIBLE,
-  INDEX `fk_inscriçao_inscriçao individual1_idx` (`inscriçao individual_idinscriçao` ASC) VISIBLE,
-  INDEX `fk_inscriçao_inscriçao coletiva1_idx` (`inscriçao coletiva_idinscriçao` ASC) VISIBLE,
-  CONSTRAINT `fk_inscriçao_Atividade1`
+  `inscricao individual_idinscricao` INT NOT NULL,
+  `inscricao coletiva_idinscricao` INT NOT NULL,
+  PRIMARY KEY (`idinscricao`, `inscricao individual_idinscricao`, `inscricao coletiva_idinscricao`),
+  INDEX `fk_inscricao_Atividade1_idx` (`Atividade_idAtividade` ASC) VISIBLE,
+  INDEX `fk_inscricao_inscricao individual1_idx` (`inscricao individual_idinscricao` ASC) VISIBLE,
+  INDEX `fk_inscricao_inscricao coletiva1_idx` (`inscricao coletiva_idinscricao` ASC) VISIBLE,
+  CONSTRAINT `fk_inscricao_Atividade1`
     FOREIGN KEY (`Atividade_idAtividade`)
     REFERENCES `les`.`Atividade` (`idAtividade`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_inscriçao_inscriçao individual1`
-    FOREIGN KEY (`inscriçao individual_idinscriçao`)
-    REFERENCES `les`.`inscriçao individual` (`idinscriçao`)
+  CONSTRAINT `fk_inscricao_inscricao individual1`
+    FOREIGN KEY (`inscricao individual_idinscricao`)
+    REFERENCES `les`.`inscricao individual` (`idinscricao`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_inscriçao_inscriçao coletiva1`
-    FOREIGN KEY (`inscriçao coletiva_idinscriçao`)
-    REFERENCES `les`.`inscriçao coletiva` (`idinscriçao`)
+  CONSTRAINT `fk_inscricao_inscricao coletiva1`
+    FOREIGN KEY (`inscricao coletiva_idinscricao`)
+    REFERENCES `les`.`inscricao coletiva` (`idinscricao`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -352,12 +352,12 @@ CREATE TABLE IF NOT EXISTS `les`.`escola` (
   `local` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NULL,
-  `inscriçao coletiva_idinscriçao` INT NOT NULL,
+  `inscricao coletiva_idinscricao` INT NOT NULL,
   PRIMARY KEY (`idescola`),
-  INDEX `fk_escola_inscriçao coletiva1_idx` (`inscriçao coletiva_idinscriçao` ASC) VISIBLE,
-  CONSTRAINT `fk_escola_inscriçao coletiva1`
-    FOREIGN KEY (`inscriçao coletiva_idinscriçao`)
-    REFERENCES `les`.`inscriçao coletiva` (`idinscriçao`)
+  INDEX `fk_escola_inscricao coletiva1_idx` (`inscricao coletiva_idinscricao` ASC) VISIBLE,
+  CONSTRAINT `fk_escola_inscricao coletiva1`
+    FOREIGN KEY (`inscricao coletiva_idinscricao`)
+    REFERENCES `les`.`inscricao coletiva` (`idinscricao`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -384,8 +384,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `les`.`Menu` (
   `idMenu` INT NOT NULL,
-  `preçoAluno` FLOAT NOT NULL,
-  `PreçoProfessor` FLOAT NOT NULL,
+  `precoAluno` FLOAT NOT NULL,
+  `PrecoProfessor` FLOAT NOT NULL,
   `tipo` VARCHAR(45) NOT NULL,
   `menu` VARCHAR(45) NULL,
   `Administrador_Utilizador_idutilizador` INT NOT NULL,
@@ -426,15 +426,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`espaço`
+-- Table `les`.`espaco`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`espaço` (
-  `idespaço` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `les`.`espaco` (
+  `idespaco` INT NOT NULL,
   `nome` VARCHAR(45) NOT NULL,
   `sessao_idsessao` INT NOT NULL,
-  PRIMARY KEY (`idespaço`),
-  INDEX `fk_espaço_sessao1_idx` (`sessao_idsessao` ASC) VISIBLE,
-  CONSTRAINT `fk_espaço_sessao1`
+  PRIMARY KEY (`idespaco`),
+  INDEX `fk_espaco_sessao1_idx` (`sessao_idsessao` ASC) VISIBLE,
+  CONSTRAINT `fk_espaco_sessao1`
     FOREIGN KEY (`sessao_idsessao`)
     REFERENCES `les`.`sessao` (`idsessao`)
     ON DELETE NO ACTION
@@ -446,16 +446,16 @@ ENGINE = InnoDB;
 -- Table `les`.`sala`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `les`.`sala` (
-  `idespaço` INT NOT NULL,
+  `idespaco` INT NOT NULL,
   `edificio` VARCHAR(45) NULL,
   `andar` VARCHAR(45) NULL,
   `gabinete` VARCHAR(45) NULL,
-  `espaço_idespaço` INT NOT NULL,
-  PRIMARY KEY (`idespaço`, `espaço_idespaço`),
-  INDEX `fk_sala_espaço1_idx` (`espaço_idespaço` ASC) VISIBLE,
-  CONSTRAINT `fk_sala_espaço1`
-    FOREIGN KEY (`espaço_idespaço`)
-    REFERENCES `les`.`espaço` (`idespaço`)
+  `espaco_idespaco` INT NOT NULL,
+  PRIMARY KEY (`idespaco`, `espaco_idespaco`),
+  INDEX `fk_sala_espaco1_idx` (`espaco_idespaco` ASC) VISIBLE,
+  CONSTRAINT `fk_sala_espaco1`
+    FOREIGN KEY (`espaco_idespaco`)
+    REFERENCES `les`.`espaco` (`idespaco`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -465,14 +465,14 @@ ENGINE = InnoDB;
 -- Table `les`.`arlivre`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `les`.`arlivre` (
-  `idespaço` INT NOT NULL,
-  `descriçao` VARCHAR(45) NULL,
-  `espaço_idespaço` INT NOT NULL,
-  PRIMARY KEY (`idespaço`, `espaço_idespaço`),
-  INDEX `fk_arlivre_espaço1_idx` (`espaço_idespaço` ASC) VISIBLE,
-  CONSTRAINT `fk_arlivre_espaço1`
-    FOREIGN KEY (`espaço_idespaço`)
-    REFERENCES `les`.`espaço` (`idespaço`)
+  `idespaco` INT NOT NULL,
+  `descricao` VARCHAR(45) NULL,
+  `espaco_idespaco` INT NOT NULL,
+  PRIMARY KEY (`idespaco`, `espaco_idespaco`),
+  INDEX `fk_arlivre_espaco1_idx` (`espaco_idespaco` ASC) VISIBLE,
+  CONSTRAINT `fk_arlivre_espaco1`
+    FOREIGN KEY (`espaco_idespaco`)
+    REFERENCES `les`.`espaco` (`idespaco`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -482,15 +482,15 @@ ENGINE = InnoDB;
 -- Table `les`.`anfiteatro`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `les`.`anfiteatro` (
-  `idespaço` INT NOT NULL,
+  `idespaco` INT NOT NULL,
   `edificio` VARCHAR(45) NULL,
   `andar` VARCHAR(45) NULL,
-  `espaço_idespaço` INT NOT NULL,
-  PRIMARY KEY (`idespaço`, `espaço_idespaço`),
-  INDEX `fk_anfiteatro_espaço1_idx` (`espaço_idespaço` ASC) VISIBLE,
-  CONSTRAINT `fk_anfiteatro_espaço1`
-    FOREIGN KEY (`espaço_idespaço`)
-    REFERENCES `les`.`espaço` (`idespaço`)
+  `espaco_idespaco` INT NOT NULL,
+  PRIMARY KEY (`idespaco`, `espaco_idespaco`),
+  INDEX `fk_anfiteatro_espaco1_idx` (`espaco_idespaco` ASC) VISIBLE,
+  CONSTRAINT `fk_anfiteatro_espaco1`
+    FOREIGN KEY (`espaco_idespaco`)
+    REFERENCES `les`.`espaco` (`idespaco`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -501,7 +501,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `les`.`Prato` (
   `idPrato` INT NOT NULL,
-  `nralomoçosdisponiveis` INT NOT NULL,
+  `nralomocosdisponiveis` INT NOT NULL,
   `prato` VARCHAR(45) NOT NULL,
   `Menu_idMenu` INT NULL,
   PRIMARY KEY (`idPrato`),
@@ -593,22 +593,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`Utilizador_has_notificaçao`
+-- Table `les`.`Utilizador_has_notificacao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`Utilizador_has_notificaçao` (
+CREATE TABLE IF NOT EXISTS `les`.`Utilizador_has_notificacao` (
   `Utilizador_idutilizador` INT NOT NULL,
-  `notificaçao_id` INT NOT NULL,
-  PRIMARY KEY (`Utilizador_idutilizador`, `notificaçao_id`),
-  INDEX `fk_Utilizador_has_notificaçao_notificaçao1_idx` (`notificaçao_id` ASC) VISIBLE,
-  INDEX `fk_Utilizador_has_notificaçao_Utilizador1_idx` (`Utilizador_idutilizador` ASC) VISIBLE,
-  CONSTRAINT `fk_Utilizador_has_notificaçao_Utilizador1`
+  `notificacao_id` INT NOT NULL,
+  PRIMARY KEY (`Utilizador_idutilizador`, `notificacao_id`),
+  INDEX `fk_Utilizador_has_notificacao_notificacao1_idx` (`notificacao_id` ASC) VISIBLE,
+  INDEX `fk_Utilizador_has_notificacao_Utilizador1_idx` (`Utilizador_idutilizador` ASC) VISIBLE,
+  CONSTRAINT `fk_Utilizador_has_notificacao_Utilizador1`
     FOREIGN KEY (`Utilizador_idutilizador`)
     REFERENCES `les`.`Utilizador` (`idutilizador`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Utilizador_has_notificaçao_notificaçao1`
-    FOREIGN KEY (`notificaçao_id`)
-    REFERENCES `les`.`notificaçao` (`id`)
+  CONSTRAINT `fk_Utilizador_has_notificacao_notificacao1`
+    FOREIGN KEY (`notificacao_id`)
+    REFERENCES `les`.`notificacao` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -726,20 +726,20 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`inscriçao_has_Prato`
+-- Table `les`.`inscricao_has_Prato`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`inscriçao_has_Prato` (
-  `inscriçao_idinscriçao` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `les`.`inscricao_has_Prato` (
+  `inscricao_idinscricao` INT NOT NULL,
   `Prato_idPrato` INT NOT NULL,
-  PRIMARY KEY (`inscriçao_idinscriçao`, `Prato_idPrato`),
-  INDEX `fk_inscriçao_has_Prato_Prato1_idx` (`Prato_idPrato` ASC) VISIBLE,
-  INDEX `fk_inscriçao_has_Prato_inscriçao1_idx` (`inscriçao_idinscriçao` ASC) VISIBLE,
-  CONSTRAINT `fk_inscriçao_has_Prato_inscriçao1`
-    FOREIGN KEY (`inscriçao_idinscriçao`)
-    REFERENCES `les`.`inscriçao` (`idinscriçao`)
+  PRIMARY KEY (`inscricao_idinscricao`, `Prato_idPrato`),
+  INDEX `fk_inscricao_has_Prato_Prato1_idx` (`Prato_idPrato` ASC) VISIBLE,
+  INDEX `fk_inscricao_has_Prato_inscricao1_idx` (`inscricao_idinscricao` ASC) VISIBLE,
+  CONSTRAINT `fk_inscricao_has_Prato_inscricao1`
+    FOREIGN KEY (`inscricao_idinscricao`)
+    REFERENCES `les`.`inscricao` (`idinscricao`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_inscriçao_has_Prato_Prato1`
+  CONSTRAINT `fk_inscricao_has_Prato_Prato1`
     FOREIGN KEY (`Prato_idPrato`)
     REFERENCES `les`.`Prato` (`idPrato`)
     ON DELETE NO ACTION
@@ -748,22 +748,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `les`.`transporte_has_inscriçao`
+-- Table `les`.`transporte_has_inscricao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`transporte_has_inscriçao` (
+CREATE TABLE IF NOT EXISTS `les`.`transporte_has_inscricao` (
   `transporte_idtransporte` INT NOT NULL,
-  `inscriçao_idinscriçao` INT NOT NULL,
-  PRIMARY KEY (`transporte_idtransporte`, `inscriçao_idinscriçao`),
-  INDEX `fk_transporte_has_inscriçao_inscriçao1_idx` (`inscriçao_idinscriçao` ASC) VISIBLE,
-  INDEX `fk_transporte_has_inscriçao_transporte1_idx` (`transporte_idtransporte` ASC) VISIBLE,
-  CONSTRAINT `fk_transporte_has_inscriçao_transporte1`
+  `inscricao_idinscricao` INT NOT NULL,
+  PRIMARY KEY (`transporte_idtransporte`, `inscricao_idinscricao`),
+  INDEX `fk_transporte_has_inscricao_inscricao1_idx` (`inscricao_idinscricao` ASC) VISIBLE,
+  INDEX `fk_transporte_has_inscricao_transporte1_idx` (`transporte_idtransporte` ASC) VISIBLE,
+  CONSTRAINT `fk_transporte_has_inscricao_transporte1`
     FOREIGN KEY (`transporte_idtransporte`)
     REFERENCES `les`.`transporte` (`idtransporte`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_transporte_has_inscriçao_inscriçao1`
-    FOREIGN KEY (`inscriçao_idinscriçao`)
-    REFERENCES `les`.`inscriçao` (`idinscriçao`)
+  CONSTRAINT `fk_transporte_has_inscricao_inscricao1`
+    FOREIGN KEY (`inscricao_idinscricao`)
+    REFERENCES `les`.`inscricao` (`idinscricao`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
