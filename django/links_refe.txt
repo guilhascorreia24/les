@@ -32,3 +32,7 @@ https://dia-aberto.firebaseapp.com/js/colaboradores.03a794e1.js
 https://dia-aberto.firebaseapp.com/js/inscricoes.a76322c7.js
 https://dia-aberto.firebaseapp.com/js/tarefas.268f7ccd.js
 https://dia-aberto.firebaseapp.com/js/almocos.09b06c28.js
+
+
+
+https://dia-aberto.firebaseapp.com/js/almocos.09b06c28.js
