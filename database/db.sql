@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `les`.`utilizador` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -163,14 +163,14 @@ CREATE TABLE IF NOT EXISTS `les`.`professor_universitario` (
   `departamento_idDepartamento` INT NOT NULL,
   PRIMARY KEY (`Utilizador_idutilizador`),
   INDEX `fk_professor_universitario_departamento1_idx` (`departamento_idDepartamento` ASC) VISIBLE,
-  CONSTRAINT `fk_professor_universitario_Utilizador`
-    FOREIGN KEY (`Utilizador_idutilizador`)
-    REFERENCES `les`.`utilizador` (`idutilizador`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
   CONSTRAINT `fk_professor_universitario_departamento1`
     FOREIGN KEY (`departamento_idDepartamento`)
     REFERENCES `les`.`departamento` (`idDepartamento`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_professor_universitario_Utilizador`
+    FOREIGN KEY (`Utilizador_idutilizador`)
+    REFERENCES `les`.`utilizador` (`idutilizador`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `les`.`atividade` (
   `capacidade` INT NOT NULL,
   `duracao` FLOAT NOT NULL,
   `descricao` VARCHAR(250) NOT NULL,
-  `validada` TINYINT NOT NULL DEFAULT 0,
+  `validada` TINYINT NOT NULL DEFAULT '0',
   `professor_universitario_Utilizador_idutilizador` INT NOT NULL,
   `unidade_organica_idUO` INT NOT NULL,
   `Departamento_idDepartamento` INT NOT NULL,
@@ -252,6 +252,138 @@ CREATE TABLE IF NOT EXISTS `les`.`atividade_has_material` (
     FOREIGN KEY (`Material_idMaterial`)
     REFERENCES `les`.`material` (`idMaterial`)
     ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`auth_group`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`auth_group` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name` (`name` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`django_content_type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`django_content_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `app_label` VARCHAR(100) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label` ASC, `model` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 96
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`auth_permission`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`auth_permission` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `content_type_id` INT NOT NULL,
+  `codename` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id` ASC, `codename` ASC) VISIBLE,
+  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co`
+    FOREIGN KEY (`content_type_id`)
+    REFERENCES `les`.`django_content_type` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 381
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`auth_group_permissions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`auth_group_permissions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
+  `permission_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id` ASC, `permission_id` ASC) VISIBLE,
+  INDEX `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id` ASC) VISIBLE,
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm`
+    FOREIGN KEY (`permission_id`)
+    REFERENCES `les`.`auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id`
+    FOREIGN KEY (`group_id`)
+    REFERENCES `les`.`auth_group` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`auth_user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`auth_user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `password` VARCHAR(128) NOT NULL,
+  `last_login` DATETIME(6) NULL DEFAULT NULL,
+  `is_superuser` TINYINT(1) NOT NULL,
+  `username` VARCHAR(150) NOT NULL,
+  `first_name` VARCHAR(30) NOT NULL,
+  `last_name` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(254) NOT NULL,
+  `is_staff` TINYINT(1) NOT NULL,
+  `is_active` TINYINT(1) NOT NULL,
+  `date_joined` DATETIME(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `username` (`username` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`auth_user_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`auth_user_groups` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `group_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id` ASC, `group_id` ASC) VISIBLE,
+  INDEX `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id` ASC) VISIBLE,
+  CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id`
+    FOREIGN KEY (`group_id`)
+    REFERENCES `les`.`auth_group` (`id`),
+  CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `les`.`auth_user` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`auth_user_user_permissions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`auth_user_user_permissions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `permission_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id` ASC, `permission_id` ASC) VISIBLE,
+  INDEX `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id` ASC) VISIBLE,
+  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm`
+    FOREIGN KEY (`permission_id`)
+    REFERENCES `les`.`auth_permission` (`id`),
+  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `les`.`auth_user` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -334,7 +466,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`colaborador_has_horario` (
   `colaborador_Utilizador_idutilizador` INT NOT NULL,
   `Horario_horainicio` DATETIME(6) NOT NULL,
-  PRIMARY KEY (`colaborador_Utilizador_idutilizador`, `Horario_horainicio`),
   INDEX `fk_colaborador_has_Horario_colaborador_id` (`colaborador_Utilizador_idutilizador` ASC) VISIBLE,
   INDEX `fk_colaborador_has_Horario_Horario_id` (`Horario_horainicio` ASC) VISIBLE,
   CONSTRAINT `fk_colaborador_has_Horario_colaborador`
@@ -358,7 +489,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`colaborador_has_unidade_organica` (
   `colaborador_Utilizador_idutilizador` INT NOT NULL,
   `unidade_organica_idUO` INT NOT NULL,
-  PRIMARY KEY (`colaborador_Utilizador_idutilizador`, `unidade_organica_idUO`),
   INDEX `fk_colaborador_has_unidade_organica_unidade_organica_id` (`unidade_organica_idUO` ASC) VISIBLE,
   INDEX `fk_colaborador_has_unidade_organica_colaborador_id` (`colaborador_Utilizador_idutilizador` ASC) VISIBLE,
   CONSTRAINT `fk_colaborador_has_unidade_organica_colaborador`
@@ -418,6 +548,61 @@ CREATE TABLE IF NOT EXISTS `les`.`coordenador_has_departamento` (
     REFERENCES `les`.`departamento` (`idDepartamento`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`django_admin_log`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`django_admin_log` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `action_time` DATETIME(6) NOT NULL,
+  `object_id` LONGTEXT NULL DEFAULT NULL,
+  `object_repr` VARCHAR(200) NOT NULL,
+  `action_flag` SMALLINT UNSIGNED NOT NULL,
+  `change_message` LONGTEXT NOT NULL,
+  `content_type_id` INT NULL DEFAULT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id` ASC) VISIBLE,
+  INDEX `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co`
+    FOREIGN KEY (`content_type_id`)
+    REFERENCES `les`.`django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `les`.`auth_user` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`django_migrations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`django_migrations` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `app` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `applied` DATETIME(6) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 19
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`django_session`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`django_session` (
+  `session_key` VARCHAR(40) NOT NULL,
+  `session_data` LONGTEXT NOT NULL,
+  `expire_date` DATETIME(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  INDEX `django_session_expire_date_a5c62663` (`expire_date` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -583,7 +768,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`inscricao_has_prato` (
   `inscricao_idinscricao` INT NOT NULL,
   `Prato_idPrato` INT NOT NULL,
-  PRIMARY KEY (`inscricao_idinscricao`, `Prato_idPrato`),
   INDEX `fk_inscricao_has_Prato_Prato_id` (`Prato_idPrato` ASC) VISIBLE,
   INDEX `fk_inscricao_has_Prato_inscricao_id` (`inscricao_idinscricao` ASC) VISIBLE,
   CONSTRAINT `fk_inscricao_has_Prato_inscricao`
@@ -607,7 +791,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`sessao` (
   `idsessao` INT NOT NULL AUTO_INCREMENT,
   `nrinscritos` INT NOT NULL,
-  `vagas` INT NOT NULL DEFAULT 0,
+  `vagas` INT NOT NULL DEFAULT '0',
   `Atividade_idAtividade` INT NOT NULL,
   `Horario_horainicio` DATETIME(6) NOT NULL,
   PRIMARY KEY (`idsessao`),
@@ -634,7 +818,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`inscricao_has_sessao` (
   `inscricao_idinscricao` INT NOT NULL,
   `sessao_idsessao` INT NOT NULL,
-  PRIMARY KEY (`inscricao_idinscricao`, `sessao_idsessao`),
   INDEX `fk_inscricao_has_sessao_sessao_id` (`sessao_idsessao` ASC) VISIBLE,
   INDEX `fk_inscricao_has_sessao_inscricao_id` (`inscricao_idinscricao` ASC) VISIBLE,
   CONSTRAINT `fk_inscricao_has_sessao_inscricao`
@@ -687,6 +870,24 @@ CREATE TABLE IF NOT EXISTS `les`.`notificacao` (
   `idutilizadorenvia` INT NOT NULL,
   `utilizadorrecebe` INT NOT NULL,
   PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `les`.`responsaveis`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`responsaveis` (
+  `idresponsavel` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `idInscricao` INT NOT NULL,
+  PRIMARY KEY (`idresponsavel`),
+  INDEX `fk_Responsáveis_Inscricao` (`idInscricao` ASC) VISIBLE,
+  CONSTRAINT `fk_Responsáveis_Inscricao`
+    FOREIGN KEY (`idInscricao`)
+    REFERENCES `les`.`inscricao` (`idinscricao`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -780,7 +981,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`transporte_has_horario` (
   `transporte_idtransporte` INT NOT NULL,
   `Horario_horainicio` DATETIME(6) NOT NULL,
-  PRIMARY KEY (`transporte_idtransporte`, `Horario_horainicio`),
   INDEX `fk_transporte_has_Horario_Horario_id` (`Horario_horainicio` ASC) VISIBLE,
   INDEX `fk_transporte_has_Horario_transporte_id` (`transporte_idtransporte` ASC) VISIBLE,
   CONSTRAINT `fk_transporte_has_Horario_Horario`
@@ -861,7 +1061,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`utilizador_has_notificacao` (
   `Utilizador_idutilizador` INT NOT NULL,
   `notificacao_id` INT NOT NULL,
-  PRIMARY KEY (`Utilizador_idutilizador`, `notificacao_id`),
   INDEX `fk_Utilizador_has_notificacao_notificacao_id` (`notificacao_id` ASC) VISIBLE,
   INDEX `fk_Utilizador_has_notificacao_Utilizador_id` (`Utilizador_idutilizador` ASC) VISIBLE,
   CONSTRAINT `fk_Utilizador_has_notificacao_notificacao`
@@ -878,18 +1077,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
--- -----------------------------------------------------
--- Table `les`.`Responsáveis`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `les`.`responsaveis` (
-  `idresponsavel` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `idInscricao` INT NOT NULL,
-  PRIMARY KEY (`idresponsavel`),
-  CONSTRAINT `fk_Responsáveis_Inscricao`
-    FOREIGN KEY (`idinscricao`)
-    REFERENCES `les`.`inscricao` (`idinscricao`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
