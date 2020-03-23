@@ -27,12 +27,12 @@ CREATE TABLE IF NOT EXISTS `les`.`utilizador` (
   `telefone` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `userName` VARCHAR(45) NOT NULL,
-  `validada` TINYINT NOT NULL,
-  `keycookie` varchar(45) NOT null,
+  `validada` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idutilizador`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `les`.`atividade` (
   `capacidade` INT NOT NULL,
   `duracao` FLOAT NOT NULL,
   `descricao` VARCHAR(250) NOT NULL,
-  `validada` TINYINT NOT NULL,
+  `validada` TINYINT NOT NULL DEFAULT 0,
   `professor_universitario_Utilizador_idutilizador` INT NOT NULL,
   `unidade_organica_idUO` INT NOT NULL,
   `Departamento_idDepartamento` INT NOT NULL,
@@ -607,7 +607,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `les`.`sessao` (
   `idsessao` INT NOT NULL AUTO_INCREMENT,
   `nrinscritos` INT NOT NULL,
-  `vagas` INT NOT NULL,
+  `vagas` INT NOT NULL DEFAULT 0,
   `Atividade_idAtividade` INT NOT NULL,
   `Horario_horainicio` DATETIME(6) NOT NULL,
   PRIMARY KEY (`idsessao`),
@@ -878,7 +878,18 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- -----------------------------------------------------
+-- Table `les`.`Responsáveis`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `les`.`responsaveis` (
+  `idresponsavel` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `idInscricao` INT NOT NULL,
+  PRIMARY KEY (`idresponsavel`),
+  CONSTRAINT `fk_Responsáveis_Inscricao`
+    FOREIGN KEY (`idinscricao`)
+    REFERENCES `les`.`inscricao` (`idinscricao`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
