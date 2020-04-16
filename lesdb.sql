@@ -1002,7 +1002,7 @@ CREATE TABLE IF NOT EXISTS `les`.`tarefa` (
   `concluida` TINYINT NOT NULL,
   `Coordenador_Utilizador_idutilizador` INT NOT NULL,
   `colaborador_Utilizador_idutilizador` INT NOT NULL,
-  `Atividade_idAtividade` INT NOT NULL,
+  `Atividade_idAtividade` INT NULL,
   `horario_has_dia_id_dia_hora` INT NOT NULL,
   PRIMARY KEY (`idtarefa`),
   INDEX `fk_tarefa_Coordenador_id` (`Coordenador_Utilizador_idutilizador` ASC) VISIBLE,
